@@ -21,6 +21,8 @@ services:
     expose:
       - "5000"
     restart: always
+    volumes:
+      - ./flask:/app
     networks:
       - system_net
 
@@ -31,6 +33,8 @@ services:
     expose:
       - "5001"
     restart: always
+    volumes:
+      - ./fastapi:/app
     networks:
       - system_net
 
