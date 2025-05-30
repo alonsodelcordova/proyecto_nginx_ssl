@@ -8,6 +8,8 @@ services:
     expose:
       - "8080"
     restart: always
+    networks:
+      - system_net
     
 
   flask_app:
@@ -17,6 +19,8 @@ services:
     expose:
       - "5000"
     restart: always
+    networks:
+      - system_net
 
   fastapi_app:
     build: ./fastapi
@@ -25,6 +29,8 @@ services:
     expose:
       - "5001"
     restart: always
+    networks:
+      - system_net
 
   nginx:
     image: nginx:latest
@@ -39,3 +45,9 @@ services:
       - flask_app
       - fastapi_app
     restart: always
+    networks:
+      - system_net
+
+networks:
+  system_net:
+    external: true
