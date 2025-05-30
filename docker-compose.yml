@@ -50,4 +50,3 @@ services:
 
 networks:
   system_net:
-    external: true
