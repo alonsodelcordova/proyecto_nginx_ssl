@@ -5,16 +5,22 @@ services:
     image: php:8.2-apache
     volumes:
       - ./php:/var/www/html
+    ports:
+      - "8080:80"
     expose:
       - "80"
 
   flask_app:
     build: ./flask
+    ports:
+      - "5000:5000"
     expose:
       - "5000"
 
   fastapi_app:
     build: ./fastapi
+    ports:
+      - "5001:5001"
     expose:
       - "5001"
 
