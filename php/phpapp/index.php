@@ -1,1 +1,1 @@
-<?php echo "Hola desde PHP"; ?>
+<?php echo "Hola desde PHPAPP"; ?>
