@@ -6,7 +6,9 @@ services:
     ports:
       - "8080:80"
     expose:
-      - "8080"
+      - "80"
+    volumes:
+      - ./php:/var/www/html
     restart: always
     networks:
       - system_net
