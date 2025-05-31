@@ -17,6 +17,13 @@ coverage.xml
 *.log
 .git
 
+uptime_kuma/data
+/uptime_kuma/
+/nextcloud/
+/nextcloud/**
+nextcloud/
+nextcloud/**
+
 
 **/node_modules
 node_modules/

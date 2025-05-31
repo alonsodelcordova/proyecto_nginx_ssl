@@ -83,5 +83,29 @@ services:
     networks: 
       - system_net
 
+  uptime_kuma_app:
+    image: louislam/uptime-kuma:1
+    container_name: uptime_kuma_app
+    ports:
+      - "3001:3001"
+    restart: always
+    volumes:
+      - ./uptime_kuma/data:/app/data
+    networks:
+      - system_net
+
+  next_cloud_app:
+    image: nextcloud
+    container_name: next_cloud_app
+    ports:
+      - "8082:80"
+    expose:
+      - "80"
+    restart: always
+    volumes:
+      - ./nextcloud:/var/www/html
+    networks:
+      - system_net
+
 networks:
   system_net:
