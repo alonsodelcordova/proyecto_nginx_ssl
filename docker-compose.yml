@@ -74,7 +74,7 @@ services:
       MYSQL_USER: restaurant
       MYSQL_PASSWORD: restaurant
     volumes:
-      - ./scripts:/docker-entrypoint-initdb.d
+      - ./scripts/restaurant.sql:/docker-entrypoint-initdb.d/restaurant.sql
     ports:
       - "3307:3306"
     expose:
