@@ -12,7 +12,18 @@ services:
     restart: always
     networks:
       - system_net
-    
+
+  restaurant_app:
+    build: ./restaurant
+    ports:
+      - "8081:80"
+    expose:
+      - "80"
+    volumes:
+      - ./restaurant:/var/www/html
+    restart: always
+    networks:
+      - system_net
 
   flask_app:
     build: ./flask
@@ -50,8 +61,26 @@ services:
       - php_app
       - flask_app
       - fastapi_app
+      - restaurant_app
     restart: always
     networks:
+      - system_net
+
+  db_mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: restaurant
+      MYSQL_USER: restaurant
+      MYSQL_PASSWORD: restaurant
+    volumes:
+      - ./scripts:/docker-entrypoint-initdb.d
+    ports:
+      - "3307:3306"
+    expose:
+      - "3306"
+    restart: always
+    networks: 
       - system_net
 
 networks:
