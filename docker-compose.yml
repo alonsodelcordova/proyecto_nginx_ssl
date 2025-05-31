@@ -67,7 +67,7 @@ services:
       - system_net
 
   db_mysql:
-    image: mysql:latest
+    image: mysql:5.7
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: restaurant
