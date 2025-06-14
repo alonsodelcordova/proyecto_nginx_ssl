@@ -1,0 +1,24 @@
+:root{
+    --color-primary: #007bff;
+    --color-secondary: #6c757d;
+    --color-success: #28a745;
+    --color-info: #17a2b8;
+    --color-warning: #ffc107;
+    --color-danger: #dc3545;
+    --color-light: #f8f9fa;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+body {
+    font-family: 'Courier New', Courier, monospace;
+    
+}
+
+.form-container {
+    max-width: 400px;
+    margin: 60px auto;
+}
+.toggle-btn {
+    margin-top: 15px;
+}

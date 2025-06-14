@@ -1,0 +1,57 @@
+{% extends "bases/admin_base.html" %}
+
+{% block content %}
+
+<div class="card card-body">
+
+    <h4> Factura : {{factura.id}}</h4>
+
+    <p>Cliente: {{ factura.cliente.nombre }}</p>
+    <p>Fecha: {{ factura.fecha }}</p>
+   
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">Producto</th>
+                <th scope="col">Precio Unitario</th>
+                <th scope="col">Cantidad</th>
+                <th scope="col">Precio Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for producto in factura.detalles %}
+                <tr>
+                    <td>{{ producto.producto.name }}</td>
+                    <td>S/. {{ producto.precio_unitario }}</td>
+                    <td>{{ producto.cantidad }}</td>
+                    <td class="text-end">S/. {{ producto.precio_unitario * producto.cantidad }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>    
+        <tfoot>
+            <tr>
+                <td colspan="4" class="text-center">Totales</td>
+            </tr>
+             <tr>
+                <td colspan="3">Subtotal: </td>
+                <td class="text-end">S/. {{ factura.subtotal }}</td>
+            </tr>
+            <tr>
+                <td colspan="3">IGV: </td>
+                <td class="text-end">S/. {{ factura.igv }}</td>
+            </tr>
+            <tr>
+                <td colspan="3">Total: </td>
+                <td class="text-end">S/. {{ factura.total }}</td>
+                
+            </tr>
+        </tfoot>
+    </table>
+    <div>
+        <a href="/admin/facturas" class="btn btn-primary btn-sm">Volver</a>
+    </div>
+</div>
+
+
+{% endblock %}

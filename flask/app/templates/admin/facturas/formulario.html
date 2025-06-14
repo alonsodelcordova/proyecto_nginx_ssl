@@ -1,0 +1,187 @@
+{% extends "bases/admin_base.html" %}
+
+{% block content %}
+
+<h4>Crear Factura</h4>
+
+<form action="/admin/facturas/nueva" method="POST" class="card card-body" id="formulario">
+    <div class="row">
+        <div class="col-md-6 my-2">
+            <label class="form-label">Cliente</label>
+            <select class="form-select" name="cliente" required>
+                {% for cliente in clientes %}
+                    <option value="{{ cliente.id }}">{{ cliente.nombre }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-6 my-2">
+            <label class="form-label">Fecha</label>
+            <input type="date" class="form-control" name="fecha" required>
+        </div>
+    </div>
+    
+    <div class="card card-body mb-3">
+        <h5>Detalles</h5>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="my-2">
+                    <label class="form-label">Productos</label>
+                    <select class="form-select" name="product" id="product">
+                        <option value="" hidden>Seleccione un producto</option>
+                        {% for producto in productos %}
+                            <option value="{{ producto.id }}">{{ producto.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="my-2">
+                    <label class="form-label">Cantidad</label>
+                    <input type="number" class="form-control" name="cantidad" id="cantidad">
+                </div>
+                <div class="my-2">
+                    <label class="form-label">Precio Unitario</label>
+                    <input type="number" class="form-control" name="precio_unitario" id="precio_unitario">
+                </div>
+                <div class="my-2">
+                    <button class="btn btn-primary" id="addProduct" type="button">Añadir</button>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <table class="table table-bordered" >
+                    <thead>
+                        <tr>
+                            <th scope="col">Producto</th>
+                            <th scope="col">Precio Unitario</th>
+                            <th scope="col">Cantidad</th>
+                            <th scope="col">Precio Total</th>
+                        </tr>
+                    </thead>
+                    <tbody id="productos" name="productos">
+                       
+                    </tbody>
+                </table>
+            </div>
+            
+        </div>
+    </div>
+    
+    <h6>Totales</h6>
+    <p>Subtotal: <span id="subtotal" name="subtotal"></span></p>
+    <p>Total: <span id="total" name="total"></span></p>
+
+    <div>
+        <button type="submit" class="btn btn-primary" id="submitBtn">Guardar Factura </button>
+    </div>            
+</form>    
+
+<script>
+    var listadoProductos = [];
+    var total = 0;
+    var subtotal = 0;
+
+    let datosFlaskProductos = [];
+
+    '{% for producto in productos %}';
+        datosFlaskProductos.push({
+            id : '{{ producto.id }}',
+            name : '{{ producto.name }}',
+            description : '{{ producto.description }}',
+            price : '{{ producto.price }}',
+            unit : '{{ producto.unit }}',
+            category : '{{ producto.category.name }}'
+        });
+    '{% endfor %}';
+
+    let productoElem = document.getElementById('product');
+    let cantidadElem = document.getElementById('cantidad');
+    let precio_unitarioElem = document.getElementById('precio_unitario');
+    let listaProductosElem = document.getElementById('productos');
+    let subtotalElem = document.getElementById('subtotal');
+    let totalElem = document.getElementById('total');
+
+
+    subtotalElem.innerHTML = 'S/. 0.00';
+    totalElem.innerHTML = 'S/. 0.00';
+
+
+    
+
+    productoElem.addEventListener('change', function () {
+        let productoId = productoElem.value;
+        let producto = datosFlaskProductos.find(producto => producto.id == productoId);
+        if (producto) {
+            precio_unitarioElem.value = producto.price;
+        }
+    });
+
+    // boton agregar
+    let buttonAddProduct = document.getElementById('addProduct');
+    buttonAddProduct.addEventListener('click', function () {
+        let productoId = productoElem.value;
+        let productoName = productoElem.options[productoElem.selectedIndex].text;
+
+        let cantidad = cantidadElem.value;
+        let precio_unitario = precio_unitarioElem.value;
+        let row = document.createElement('tr');
+        let td1 = document.createElement('td');
+        td1.innerHTML = productoName;
+        let td2 = document.createElement('td');
+        td2.innerHTML = 'S/. ' + precio_unitario;
+        let td3 = document.createElement('td');
+        td3.innerHTML = cantidad;
+        let td4 = document.createElement('td');
+        td4.innerHTML = 'S/. ' + (precio_unitario * cantidad);
+        row.appendChild(td1);
+        row.appendChild(td2);
+        row.appendChild(td3);
+        row.appendChild(td4);
+
+        listadoProductos.push({
+            producto_id : productoId,
+            cantidad : cantidad,
+            precio_unitario : precio_unitario
+        })
+        subtotal += precio_unitario * cantidad;
+        total += precio_unitario * cantidad;
+        subtotalElem.innerHTML = 'S/. ' + subtotal.toFixed(2);
+        totalElem.innerHTML = 'S/. ' + total.toFixed(2);
+
+        listaProductosElem.appendChild(row);
+        
+        
+        cantidadElem.value = '';
+        precio_unitarioElem.value = '';
+        productoElem.value = '';
+        alert('Producto agregado exitosamente');
+    });
+
+
+    document.getElementById('formulario').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        let data = new FormData();
+        data.append('cliente', document.getElementsByName('cliente')[0].value);
+        data.append('fecha', document.getElementsByName('fecha')[0].value);
+        data.append('subtotal', subtotal);
+        data.append('total', total);
+        data.append('productos', JSON.stringify(listadoProductos));
+        
+        fetch('/admin/facturas/nueva', {
+            method: 'POST',
+            body: data
+        })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                window.location.href = '/admin/facturas';
+            })
+            .catch(error => {
+                alert(error);
+            });
+    });
+
+</script>
+
+
+
+{% endblock %}
+

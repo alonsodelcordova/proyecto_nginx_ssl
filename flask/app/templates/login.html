@@ -1,0 +1,22 @@
+{% extends "bases/inicio_base.html" %}
+
+{% block content %}
+    <div class="form-container">
+        <h2 class="text-center" id="formTitle">Iniciar Sesión</h2>
+        <form id="authForm">
+            <div class="mb-3">
+                <label class="form-label">Correo electrónico</label>
+                <input type="email" class="form-control" name="email" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Contraseña</label>
+                <input type="password" class="form-control" name="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100" id="submitBtn">Iniciar Sesión</button>
+            <a class="btn btn-link w-100 toggle-btn" href="/register">¿No tienes cuenta? Regístrate</a>
+        </form>
+        <div id="response" class="mt-3 text-center"></div>
+    </div>
+
+    <script src="/static/js/auth.js"></script>
+{% endblock %}

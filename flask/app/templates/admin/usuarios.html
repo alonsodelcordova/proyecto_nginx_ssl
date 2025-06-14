@@ -1,0 +1,62 @@
+{% extends "bases/admin_base.html" %}
+
+{% block content %}
+
+<h4>usuarios</h4>
+
+    <div class="card-body">        
+        <form action="/admin/usuarios" method="POST" class="card card-body">
+            <div class="row">
+                <div class="col-md-6 my-2">
+                    <label class="form-label">Nombre</label>
+                    <input type="text" class="form-control" name="nombre" required>
+                </div>
+                <div class="col-md-6 my-2">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-control" name="email" required>
+                </div>
+                <div class="col-md-6 my-2">
+                    <label class="form-label">Contraseña</label>
+                    <input type="password" class="form-control" name="password" required>
+                </div>
+                <div class="col-md-6 my-2">
+                    <label class="form-label">Confirmar Contraseña</label>
+                    <input type="password" class="form-control" name="password2" required>
+                </div>
+            </div>            
+            <div>
+                <button type="submit" class="btn btn-primary" id="submitBtn">Guardar</button>
+            </div>            
+        </form>
+        <hr>
+        <h4>Listado de Usuarios</h4>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for usuario in usuarios %}
+                    <tr>
+                        <td>{{ usuario.name }}</td>
+                        <td>{{ usuario.email }}</td>
+                        <td>
+                            <a href="#" class="btn btn-primary btn-sm">Editar</a>
+                            <a href="#" class="btn btn-danger btn-sm">Eliminar</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                {% if usuarios|length == 0 %}
+                    <tr>
+                        <td colspan="5" class="text-center">No hay usuarios</td>
+                    </tr>    
+                {% endif %}
+            </tbody>
+        </table>
+    </div>  
+
+
+{% endblock %}
