@@ -2,38 +2,42 @@
 
 {% block content %}
 
-<div class="card card-body">
+<div class="card">
+    <div class="card-header">
+        <h4> Factura : {{factura.id}}</h4>
+    </div>
 
-    <h4> Factura : {{factura.id}}</h4>
+    <div class="card-body">
+        <p>Cliente: {{ factura.cliente.nombre }}</p>
+        <p>Fecha: {{ factura.fecha }}</p>
+    
 
-    <p>Cliente: {{ factura.cliente.nombre }}</p>
-    <p>Fecha: {{ factura.fecha }}</p>
-   
-
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th scope="col">Producto</th>
-                <th scope="col">Precio Unitario</th>
-                <th scope="col">Cantidad</th>
-                <th scope="col">Precio Total</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for producto in factura.detalles %}
+        <table class="table table-bordered">
+            <thead>
                 <tr>
-                    <td>{{ producto.producto.name }}</td>
-                    <td>S/. {{ producto.precio_unitario }}</td>
-                    <td>{{ producto.cantidad }}</td>
-                    <td class="text-end">S/. {{ producto.precio_unitario * producto.cantidad }}</td>
+                    <th scope="col">Producto</th>
+                    <th scope="col">Precio Unitario</th>
+                    <th scope="col">Cantidad</th>
+                    <th scope="col">Precio Total</th>
                 </tr>
-            {% endfor %}
-        </tbody>    
-        <tfoot>
+            </thead>
+            <tbody>
+                {% for producto in factura.detalles %}
+                    <tr>
+                        <td>{{ producto.producto.name }}</td>
+                        <td>S/. {{ producto.precio_unitario }}</td>
+                        <td>{{ producto.cantidad }}</td>
+                        <td class="text-end">S/. {{ producto.precio_unitario * producto.cantidad }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>    
+        </table>
+
+        <table style="min-width: 300px;">
             <tr>
                 <td colspan="4" class="text-center">Totales</td>
             </tr>
-             <tr>
+            <tr>
                 <td colspan="3">Subtotal: </td>
                 <td class="text-end">S/. {{ factura.subtotal }}</td>
             </tr>
@@ -44,13 +48,15 @@
             <tr>
                 <td colspan="3">Total: </td>
                 <td class="text-end">S/. {{ factura.total }}</td>
-                
             </tr>
-        </tfoot>
-    </table>
-    <div>
-        <a href="/admin/facturas" class="btn btn-primary btn-sm">Volver</a>
+        </table>
     </div>
+    <div class="card-footer">
+        <a href="/admin/facturas" class="btn btn-primary btn-sm">
+            <i class="fa fa-arrow-left"></i> Volver
+        </a>
+    </div>
+   
 </div>
 
 

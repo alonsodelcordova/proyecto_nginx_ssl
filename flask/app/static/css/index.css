@@ -22,3 +22,32 @@ body {
 .toggle-btn {
     margin-top: 15px;
 }
+
+
+.card{
+    box-shadow: 0 4px 8px 0 rgba(36, 34, 34, 0.2);
+    transition: 0.3s;
+    border-radius: 26px;
+    margin-bottom: 30px;
+    border: 1px solid rgba(36, 34, 34, 0.1);
+
+    .card-header{
+        background-color: var(--color-primary);
+        color: white;
+        font-size: 20px;
+        font-weight: bold;
+        padding: 10px 25px;
+        border-radius: 26px 26px 0 0;
+        border-bottom: none;
+
+        .fa{
+            margin-right: 10px;
+            font-size: 20px;
+            color: white;
+        }
+    }
+
+    h3, p, h2, h4, h5 {
+        margin: 0;
+    }
+}

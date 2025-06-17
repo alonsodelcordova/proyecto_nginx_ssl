@@ -2,48 +2,54 @@
 
 {% block content %}
 
-<div class="d-flex justify-content-between">
-    <h4>Facturas</h4>
-    <div>
-        <a href="/admin/facturas/nueva" class="btn btn-primary btn-sm">Nueva</a>
+<div class="card">
+    <div class="card-header">
+        <i class="fa fa-file-text"></i> Facturas
+    </div>
+    <div class="card-body">
+        <div class="d-flex justify-content-end mb-3">
+            <div>
+                <a href="/admin/facturas/nueva" class="btn btn-primary btn-sm">
+                    <i class="fa fa-plus"></i> Nueva
+                </a>
+            </div>
+        </div>
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col">Cliente</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Subtotal</th>
+                    <th scope="col">Total</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for factura in facturas %}
+                    <tr>
+                        <td>{{ factura.cliente.nombre }}</td>
+                        <td>{{ factura.fecha }}</td>
+                        <td>S/. {{ factura.subtotal }}</td>
+                        <td>S/. {{ factura.total }}</td>
+                        <td>
+                            <a href="/admin/facturas/{{factura.id}}" class="btn btn-primary btn-sm m-1">
+                                <i class="fa fa-eye"></i> Ver
+                            </a>
+                            <a href="#" class="btn btn-danger btn-sm m-1">
+                                <i class="fa fa-trash"></i> 
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                {% if facturas|length == 0 %}
+                    <tr>
+                        <td colspan="5" class="text-center">No hay facturas</td>
+                    </tr>    
+                {% endif %}
+            </tbody>
+
+        </table>
     </div>
 </div>
-
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th scope="col">Cliente</th>
-            <th scope="col">Fecha</th>
-            <th scope="col">Subtotal</th>
-            <th scope="col">Total</th>
-            <th scope="col">Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for factura in facturas %}
-            <tr>
-                <td>{{ factura.cliente.nombre }}</td>
-                <td>{{ factura.fecha }}</td>
-                <td>S/. {{ factura.subtotal }}</td>
-                <td>S/. {{ factura.total }}</td>
-                <td>
-                    <a href="/admin/facturas/{{factura.id}}" class="btn btn-primary btn-sm m-1">
-                        <i class="fa fa-eye"></i> Ver
-                    </a>
-                    <a href="#" class="btn btn-danger btn-sm m-1">
-                        <i class="fa fa-trash"></i> 
-                    </a>
-                </td>
-            </tr>
-        {% endfor %}
-        {% if facturas|length == 0 %}
-            <tr>
-                <td colspan="5" class="text-center">No hay facturas</td>
-            </tr>    
-        {% endif %}
-    </tbody>
-
-</table>
-
-
 {% endblock %}

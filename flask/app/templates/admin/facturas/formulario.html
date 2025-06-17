@@ -2,76 +2,90 @@
 
 {% block content %}
 
-<h4>Crear Factura</h4>
-
-<form action="/admin/facturas/nueva" method="POST" class="card card-body" id="formulario">
-    <div class="row">
-        <div class="col-md-6 my-2">
-            <label class="form-label">Cliente</label>
-            <select class="form-select" name="cliente" required>
-                {% for cliente in clientes %}
-                    <option value="{{ cliente.id }}">{{ cliente.nombre }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <div class="col-md-6 my-2">
-            <label class="form-label">Fecha</label>
-            <input type="date" class="form-control" name="fecha" required>
-        </div>
+<div class="card">
+    <div class="card-header">
+        <h4>Crear Factura</h4>
     </div>
-    
-    <div class="card card-body mb-3">
-        <h5>Detalles</h5>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="my-2">
-                    <label class="form-label">Productos</label>
-                    <select class="form-select" name="product" id="product">
-                        <option value="" hidden>Seleccione un producto</option>
-                        {% for producto in productos %}
-                            <option value="{{ producto.id }}">{{ producto.name }}</option>
+    <div class="card-body">
+        <form action="/admin/facturas/nueva" method="POST" id="formulario">
+            <div class="row">
+                <div class="col-md-6 my-2">
+                    <label class="form-label">Cliente</label>
+                    <select class="form-select" name="cliente" required>
+                        {% for cliente in clientes %}
+                            <option value="{{ cliente.id }}">{{ cliente.nombre }}</option>
                         {% endfor %}
                     </select>
                 </div>
-                <div class="my-2">
-                    <label class="form-label">Cantidad</label>
-                    <input type="number" class="form-control" name="cantidad" id="cantidad">
-                </div>
-                <div class="my-2">
-                    <label class="form-label">Precio Unitario</label>
-                    <input type="number" class="form-control" name="precio_unitario" id="precio_unitario">
-                </div>
-                <div class="my-2">
-                    <button class="btn btn-primary" id="addProduct" type="button">Añadir</button>
+                <div class="col-md-6 my-2">
+                    <label class="form-label">Fecha</label>
+                    <input type="date" class="form-control" name="fecha" required>
                 </div>
             </div>
-            <div class="col-md-8">
-                <table class="table table-bordered" >
-                    <thead>
-                        <tr>
-                            <th scope="col">Producto</th>
-                            <th scope="col">Precio Unitario</th>
-                            <th scope="col">Cantidad</th>
-                            <th scope="col">Precio Total</th>
-                        </tr>
-                    </thead>
-                    <tbody id="productos" name="productos">
-                       
-                    </tbody>
-                </table>
+            <hr>
+            <div class="mb-3">
+                <h5>Detalles</h5>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="my-2">
+                            <label class="form-label">Productos</label>
+                            <select class="form-select" name="product" id="product">
+                                <option value="" hidden>Seleccione un producto</option>
+                                {% for producto in productos %}
+                                    <option value="{{ producto.id }}">{{ producto.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="my-2">
+                            <label class="form-label">Cantidad</label>
+                            <input type="number" class="form-control" name="cantidad" id="cantidad">
+                        </div>
+                        <div class="my-2">
+                            <label class="form-label">Precio Unitario</label>
+                            <input type="number" class="form-control" name="precio_unitario" id="precio_unitario">
+                        </div>
+                        <div class="my-2">
+                            <button class="btn btn-primary" id="addProduct" type="button">
+                                <i class="fa fa-plus"></i> Añadir
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <table class="table table-bordered" >
+                            <thead>
+                                <tr>
+                                    <th scope="col">Producto</th>
+                                    <th scope="col">Precio Unitario</th>
+                                    <th scope="col">Cantidad</th>
+                                    <th scope="col">Precio Total</th>
+                                </tr>
+                            </thead>
+                            <tbody id="productos" name="productos">
+                            
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                </div>
             </div>
+            <hr>
             
-        </div>
-    </div>
-    
-    <h6>Totales</h6>
-    <p>Subtotal: <span id="subtotal" name="subtotal"></span></p>
-    <p>Total: <span id="total" name="total"></span></p>
+            <h6>Totales</h6>
+            <p>Subtotal: <span id="subtotal" name="subtotal"></span></p>
+            <p>Total: <span id="total" name="total"></span></p>
 
-    <div>
-        <button type="submit" class="btn btn-primary" id="submitBtn">Guardar Factura </button>
-    </div>            
-</form>    
+            <div>
+                <button type="submit" class="btn btn-primary" id="submitBtn">
+                    <i class="fa fa-check"></i> Guardar
+                </button>
+            </div>            
+        </form>    
+
+    </div>
+</div>
+
+
+
 
 <script>
     var listadoProductos = [];
@@ -117,6 +131,10 @@
     let buttonAddProduct = document.getElementById('addProduct');
     buttonAddProduct.addEventListener('click', function () {
         let productoId = productoElem.value;
+        if(productoId == ''){
+            alert('Seleccione un producto');
+            return;
+        }
         let productoName = productoElem.options[productoElem.selectedIndex].text;
 
         let cantidad = cantidadElem.value;

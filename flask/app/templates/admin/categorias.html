@@ -3,15 +3,16 @@
 {% block content %}
 
 
-
-<h4>
-    <i class="fa fa-tag"></i> Categorias
-</h4>
-
+<div class="card">
+    <div class="card-header">
+        <h4>
+            <i class="fa fa-tag"></i> Categorias
+        </h4>
+    </div>
     <div class="card-body">        
-        <form action="/admin/categorias" method="POST" class="card card-body">
+        <form action="/admin/categorias" method="POST" >
             <div class="row">
-                <div class="col-md-6 my-2">
+                <div class="col-lg-6 my-2">
                     <label class="form-label">Nombre</label>
                     <input type="text" class="form-control" name="nombre" required>
                 </div>
@@ -53,6 +54,11 @@
             </tbody>
         </table>
     </div>
+</div>
+
+
+
+    
 
 
 {% endblock %}
