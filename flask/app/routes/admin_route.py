@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify, render_template, session, redirect
+from flask import Blueprint, request, jsonify, render_template, session, redirect, flash
 from app.models.user_model import User
 from app.utils.decorators import session_required
 from app.models.cliente_model import Cliente
@@ -21,7 +21,6 @@ def clientes_get(current_user):
     clientes = Cliente.query.all()
     return render_template('admin/clientes.html', current_user=current_user, clientes=clientes)
 
-
 @router_app.post('/clientes')
 @session_required
 def clientes_post(current_user):
@@ -36,6 +35,24 @@ def clientes_post(current_user):
     
     cliente = Cliente(nombre, direccion, telefono, correo, fecha_nacimiento, tipo)
     cliente.save()
+    
+    flash('Cliente creado exitosamente', 'success')
+    return redirect('/admin/clientes')
+
+@router_app.get('/clientes/<int:id>/eliminar')
+@session_required
+def clientes_delete(current_user, id):
+    cliente = Cliente.query.get(id)
+    if cliente is None:
+        flash('Cliente no encontrado', 'danger')
+        return redirect('/admin/clientes')
+    
+    if len(cliente.facturas) > 0:
+        flash('El cliente no puede eliminarse porque tiene facturas asociadas', 'danger')
+        return redirect('/admin/clientes')
+    
+    cliente.delete()
+    flash('Cliente eliminado exitosamente', 'success')
     return redirect('/admin/clientes')
 
 
@@ -62,6 +79,23 @@ def productos_post(current_user):
     
     producto = Product(nombre, descripcion, precio, unidad, categoria)
     producto.save()
+    flash('Producto creado exitosamente', 'success')
+    return redirect('/admin/productos')
+
+@router_app.get('/productos/<int:id>/eliminar')
+@session_required
+def productos_delete(current_user, id):
+    producto = Product.query.get(id)
+    if producto is None:
+        flash('Producto no encontrado', 'danger')
+        return redirect('/admin/productos')
+    
+    if len(producto.detalles) > 0:
+        flash('El producto no puede eliminarse porque tiene facturas asociadas', 'danger')
+        return redirect('/admin/productos')
+    
+    producto.delete()
+    flash('Producto eliminado exitosamente', 'success')
     return redirect('/admin/productos')
 
 @router_app.get('/facturas')
@@ -103,6 +137,7 @@ def factura_nueva_post(current_user):
         factura_producto = FacturaProducto(producto_id, precio_unitario, cantidad)
         factura_producto.factura_id = factura.id
         factura_producto.save()
+    flash('Factura creada exitosamente', 'success')
     return jsonify({'message': 'factura creada'})
 
 @router_app.get('/facturas/<int:id>')
@@ -130,5 +165,22 @@ def categorias_post(current_user):
     
     categoria = Category(nombre)
     categoria.save()
+    flash('Categoria creada exitosamente', 'success')
     return redirect('/admin/categorias')
 
+
+@router_app.get('/categorias/<int:id>/eliminar')
+@session_required
+def categorias_delete(current_user, id):
+    categoria = Category.query.get(id)
+    if categoria is None:
+        flash('Categoria no encontrada', 'danger')
+        return redirect('/admin/categorias')
+    
+    
+    if len(categoria.productos) > 0:
+        flash('La categoria no puede eliminarse porque tiene productos asociados', 'danger')
+        return redirect('/admin/categorias')
+    
+    categoria.delete()
+    return redirect('/admin/categorias')

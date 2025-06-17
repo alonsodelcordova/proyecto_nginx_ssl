@@ -2,7 +2,9 @@
 
 {% block content %}
 
-<h4>usuarios</h4>
+<h4>
+    <i class="fa fa-users"></i> Usuarios
+</h4>
 
     <div class="card-body">        
         <form action="/admin/usuarios" method="POST" class="card card-body">
@@ -25,7 +27,9 @@
                 </div>
             </div>            
             <div>
-                <button type="submit" class="btn btn-primary" id="submitBtn">Guardar</button>
+                <button type="submit" class="btn btn-primary" id="submitBtn">
+                    <i class="fa fa-save"></i> Guardar
+                </button>
             </div>            
         </form>
         <hr>
@@ -44,8 +48,12 @@
                         <td>{{ usuario.name }}</td>
                         <td>{{ usuario.email }}</td>
                         <td>
-                            <a href="#" class="btn btn-primary btn-sm">Editar</a>
-                            <a href="#" class="btn btn-danger btn-sm">Eliminar</a>
+                            <a href="#" class="btn btn-warning btn-sm m-1">
+                                <i class="fa fa-pencil"></i>
+                            </a>
+                            <a href="#" class="btn btn-danger btn-sm m-1">
+                                <i class="fa fa-trash"></i>
+                            </a>
                         </td>
                     </tr>
                 {% endfor %}

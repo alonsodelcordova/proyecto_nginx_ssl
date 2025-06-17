@@ -4,7 +4,9 @@
 
 
 
-<h4>Categorias</h4>
+<h4>
+    <i class="fa fa-tag"></i> Categorias
+</h4>
 
     <div class="card-body">        
         <form action="/admin/categorias" method="POST" class="card card-body">
@@ -15,7 +17,9 @@
                 </div>
             </div>            
             <div>
-                <button type="submit" class="btn btn-primary" id="submitBtn">Guardar</button>
+                <button type="submit" class="btn btn-primary" id="submitBtn">
+                    <i class="fa fa-save"></i> Guardar
+                </button>
             </div>            
         </form>
         <hr>
@@ -32,8 +36,12 @@
                     <tr>
                         <td>{{ categoria.name }}</td>
                         <td>
-                            <a href="#" class="btn btn-primary btn-sm">Editar</a>
-                            <a href="#" class="btn btn-danger btn-sm">Eliminar</a>
+                            <a href="#" class="btn btn-warning btn-sm m-1">
+                                <i class="fa fa-pencil"></i>
+                            </a>
+                            <a href="/admin/categorias/{{categoria.id}}/eliminar" class="btn btn-danger btn-sm m-1">
+                                <i class="fa fa-trash"></i>
+                            </a>
                         </td>
                     </tr>
                 {% endfor %}

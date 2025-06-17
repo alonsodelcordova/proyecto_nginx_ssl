@@ -12,6 +12,7 @@ class Factura(BaseModel):
     
     detalles = db.relationship('FacturaProducto', backref='factura', lazy=True)
     
+    
     def __init__(self, cliente_id, fecha, subtotal, total):
         self.cliente_id = cliente_id
         self.fecha = fecha
